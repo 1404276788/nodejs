@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>dede转wdede数据库操作语句</title>
+    <link rel="stylesheet" href="prism.css">
+    <style>
+        .red {
+            color: red;
+        }
+
+        .val {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .val input {
+            height: 30px;
+            line-height: 30px;
+            width: 300px;
+            box-sizing: border-box;
+            padding: 0 5px;
+        }
+
+        div {
+            padding-left: 8px;
+        }
+        h2{
+            margin-bottom: 0;
+        }
+        pre{
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <p class="val">网站根域名：<input type="text" value="" placeholder="域名，不带www，如：baidu.com"></p>
+    <h2 class="red">删除表</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content: center">
+        <pre style="flex:1;" contenteditable="true" >
+            <code class='language-sql'>
+DROP TABLE dede_addonarticle;
+DROP TABLE dede_admintype;
+DROP TABLE dede_archives;
+DROP TABLE dede_arctiny;
+DROP TABLE dede_arctype;
+DROP TABLE dede_stepselect;
+DROP TABLE dede_tagindex;
+DROP TABLE dede_taglist;
+DROP TABLE dede_uploads;
+ALTER TABLE jtcm_addonarticle RENAME TO dede_addonarticle;
+ALTER TABLE jtcm_admintype RENAME TO dede_admintype;
+ALTER TABLE jtcm_archives RENAME TO dede_archives;
+ALTER TABLE jtcm_arctiny RENAME TO dede_arctiny;
+ALTER TABLE jtcm_arctype RENAME TO dede_arctype;
+ALTER TABLE jtcm_stepselect RENAME TO dede_stepselect;
+ALTER TABLE jtcm_tagindex RENAME TO dede_tagindex;
+ALTER TABLE jtcm_taglist RENAME TO dede_taglist;
+ALTER TABLE jtcm_uploads RENAME TO dede_uploads;
+            </code>
+        </pre>
+        <pre style="flex:1;" contenteditable="true" >
+            <code class='language-sql'>
+DROP TABLE dede_addonarticle;
+DROP TABLE dede_admintype;
+DROP TABLE dede_archives;
+DROP TABLE dede_arctiny;
+DROP TABLE dede_arctype;
+DROP TABLE dede_stepselect;
+DROP TABLE dede_tagindex;
+DROP TABLE dede_taglist;
+DROP TABLE dede_uploads;
+ALTER TABLE king_addonarticle RENAME TO dede_addonarticle;
+ALTER TABLE king_admintype RENAME TO dede_admintype;
+ALTER TABLE king_archives RENAME TO dede_archives;
+ALTER TABLE king_arctiny RENAME TO dede_arctiny;
+ALTER TABLE king_arctype RENAME TO dede_arctype;
+ALTER TABLE king_stepselect RENAME TO dede_stepselect;
+ALTER TABLE king_tagindex RENAME TO dede_tagindex;
+ALTER TABLE king_taglist RENAME TO dede_taglist;
+ALTER TABLE king_uploads RENAME TO dede_uploads;
+            </code>
+        </pre>
+    </div>
+    <h2 class="red">更新表</h2>
+    <div contenteditable="true">
+        <pre>
+            <code class='language-sql'>
+ALTER TABLE dede_archives MODIFY COLUMN litpic char(255);
+ALTER TABLE dede_uploads MODIFY COLUMN url char(255);
+update dede_archives set ismake=-1;
+update dede_arctype set isdefault=-1;
+INSERT INTO `dede_arctype` (`reid`, `topid`, `sortrank`, `typename`, `typedir`, `isdefault`, `defaultname`, `issend`, `channeltype`, `maxpage`, `ispart`, `corank`, `tempindex`, `templist`, `temparticle`, `namerule`, `namerule2`, `modname`, `description`, `keywords`, `seotitle`, `moresite`, `sitepath`, `siteurl`, `ishidden`, `cross`, `crossid`, `content`, `smalltypes`) VALUES ('0', '0', '50', '网站地图', '/sitemap', '1', 'index.html', '1', '1', '-1', '1', '0', '{style}/sitemap.htm', '{style}/list_article.htm', '{style}/article_article.htm', '{typedir}/{Y}/{M}{D}/{aid}.html', '{typedir}/list_{tid}_{page}.html', 'default', '', '', '', '0', '/sitemap', '', '1', '0', '', '', '');
+update dede_arctype set tempindex='{style}/index_article.htm';
+update dede_arctype set templist='{style}/list_article.htm';
+update dede_arctype set temparticle='{style}/article_article.htm';
+update dede_arctype set tempindex='{style}/sitemap.htm' where typename='网站地图';        
+            </code>        
+        </pre>
+
+    </div>
+    <h2 class="red">替换图片</h2>
+    <div id='img_sql' contenteditable="true">
+        <pre>
+            <code class='language-sql'>
+            </code>
+        </pre>
+    </div>
+    <script src="jquery.js"></script>
+    <script src="prism.js"></script>
+    <script>        
+        $('input').blur(function () {
+            let s1 = $('input').val();
+            let s2 = s1.replace(/\./g, '_');
+            let str = `
+update dede_archives SET dede_archives.litpic = REPLACE( dede_archives.litpic, '/uploads/', 'http://img.${s1}/${s2}/' ) 
+where dede_archives.litpic like '/uploads/%';
+update dede_addonarticle SET dede_addonarticle.body = REPLACE( dede_addonarticle.body, '/uploads/', 'http://img.${s1}/${s2}/' ) 
+where dede_addonarticle.body like '%/uploads/%';
+update dede_uploads SET dede_uploads.url = REPLACE( dede_uploads.url, '/uploads/', 'http://img.${s1}/${s2}/' ) 
+where dede_uploads.url like '/uploads/%';`;
+            $('#img_sql pre code').html(str);
+        })
+    </script>
+</body>
+
+</html>
