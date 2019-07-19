@@ -10,10 +10,10 @@ const fs = require('fs');
 const readline = require('readline');
 
 //要分割的文件路径
-const file = `C:/Users/Administrator/Desktop/10.txt`;
-const row=100000; //控制文件行数
+const file = `C:/Users/Administrator/Desktop/shell123.txt`;
+const row=10000; //控制文件行数
 //const dirname='C:/Users/Administrator/Desktop/url/'; //分割的文件要写入到哪个文件夹中
-const dirname='C:/Users/Administrator/Desktop/111/'; //分割的文件要写入到哪个文件夹中
+const dirname='C:/Users/Administrator/Desktop/s1/'; //分割的文件要写入到哪个文件夹中
 
 
 
