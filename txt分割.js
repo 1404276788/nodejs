@@ -11,7 +11,7 @@ const readline = require('readline');
 
 //要分割的文件路径
 const file = `C:/Users/Administrator/Desktop/shell123.txt`;
-const row=10000; //控制文件行数
+const row=500; //控制文件行数
 //const dirname='C:/Users/Administrator/Desktop/url/'; //分割的文件要写入到哪个文件夹中
 const dirname='C:/Users/Administrator/Desktop/s1/'; //分割的文件要写入到哪个文件夹中
 
